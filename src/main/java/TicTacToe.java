@@ -31,7 +31,7 @@ public class TicTacToe {
      */
     public boolean isValid(int location) {
         // TODO: add code here
-        return false;
+        return location < 9 && location >= 0;
     }
 
     /**
@@ -42,7 +42,11 @@ public class TicTacToe {
      */
     public boolean isEmpty(int location) {
         // TODO: add code here
-        return false;
+        if (isValid(location)) {
+            if (board[location / board[0].length][location % board[0].length] == null) {
+                return true;
+            }
+        }return false;
     }
 
     /**
@@ -52,7 +56,15 @@ public class TicTacToe {
      */
     public int movesRemaining() {
         // TODO: add code here
-        return 0;
+        int moves = 0;
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if (board[i][j] == null) {
+                    moves ++;
+                }
+            }
+        }
+        return moves;
     }
 
     /**
@@ -63,6 +75,9 @@ public class TicTacToe {
      */
     public GamePiece getPiece(int location) {
         // TODO: add code here
+        if (isValid(location)){
+            return new GamePiece(board[location / board[0].length][location % board[0].length]);
+        }
         return null;
     }
 
@@ -73,6 +88,8 @@ public class TicTacToe {
      */
     public GamePiece getWinner() {
         GamePiece winner = null;
+        boolean win = true;
+        int index;
         int[][] combos = {
                 {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, // horizontal winning combinations
                 {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, // vertical winning combinations
@@ -80,6 +97,26 @@ public class TicTacToe {
         };
 
         // TODO: add code here
+        for (int i = 0; i < combos.length; i++){
+            if(winner != null){
+                break;
+            }
+            for(int m = 0; m < combos[i].length; m++){
+                index = combos[i][m];
+                if (board[index / board[0].length] [index % board[0].length] == null){
+                    winner = null;
+                    break;
+                }
+                if(m == 0){
+                    winner = board[index / board[0].length] [index % board[0].length];
+                }
+                else if(!(board[index / board[0].length][index % board[0].length].equals(winner))){
+                winner = null;
+                break;
+                }
+            }
+
+        }
 
         return winner;
     }
@@ -114,6 +151,11 @@ public class TicTacToe {
     public void clear() {
         // set all elements of 2d array to null
         // TODO: add code here
+        for (int i = 0; i < board.length; i++){
+            for (int j = 0; j < board[i].length; j++){
+                board[i][j] = null;
+            }
+        }
     }
 
     /**
